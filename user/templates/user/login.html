@@ -1,0 +1,43 @@
+{% extends 'user/base.html' %}
+{% load static %}
+{% block title %}Passioné | Register{% endblock %}
+
+{% block content %}
+<div class="flex justify-center items-center min-h-screen bg-[#F2F4F3] px-4">
+    <div class="w-full max-w-xl p-8 rounded-lg space-y-6">
+        <h1 class="text-2xl md:text-3xl font-bold text-center" style="font-family: 'Abril Fatface', serif; font-weight:400; font-style:normal;">Log In</h1>
+        <p class="text-center text-gray-500">Enter credentials to access your account.</p>
+
+        <form method="POST" class="space-y-5" id="login-form">
+            {% csrf_token %}
+
+            <div>
+                <label class="font-bold block mb-1" for="username">Username</label>
+                <input class="input input-neutral w-full border border-gray-300 bg-[#F2F4F3] focus:outline-none" type="text" name="username" placeholder="Username" required>
+                {% if form.username.errors %}
+                    <div class="text-red-600 text-sm mt-1">{{ form.username.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div>
+                <label class="font-bold block mb-1" for="password">Password</label>
+                <input class="input input-neutral w-full border border-gray-300 bg-[#F2F4F3] focus:outline-none" type="password" name="password" placeholder="Password" required>
+            </div>
+
+            <button id="submit-btn" type="submit" class="btn bg-[#0A0908] w-full  text-[#F2F4F3]">Log In</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("login-form");
+        const button = document.getElementById("submit-btn");
+
+        form.addEventListener("submit", function () {
+            button.disabled = true;
+            button.innerText = "Logging In...";
+        });
+    });
+</script>
+{% endblock %}

@@ -3,7 +3,63 @@
 {% block title %}Passioné | Register{% endblock %}
 
 {% block content %}
-    <div>
-        <h1></h1>
+<div class="flex justify-center items-center min-h-screen bg-[#F2F4F3] px-4">
+    <div class="w-full max-w-xl p-8 rounded-lg space-y-6">
+        <h1 class="text-2xl md:text-3xl font-bold text-center" style="font-family: 'Abril Fatface', serif; font-weight:400; font-style:normal;" >Create an Account</h1>
+        <p class="text-center text-gray-500">Enter your information to create an account.</p>
+
+        <form method="POST" class="space-y-5" id="register-form">
+            {% csrf_token %}
+
+            <div>
+                <label class="font-bold block mb-1" for="username">Username</label>
+                <input class="input input-neutral w-full border border-gray-300 bg-[#F2F4F3] focus:outline-none" type="text" name="username" placeholder="Username" required>
+                {% if form.username.errors %}
+                    <div class="text-red-600 text-sm mt-1">{{ form.username.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div>
+                <label class="font-bold block mb-1" for="email">Email</label>
+                <input class="input input-neutral w-full border border-gray-300 bg-[#F2F4F3] focus:outline-none" type="email" name="email" placeholder="Email" required>
+                {% if form.email.errors %}
+                    <div class="text-red-600 text-sm mt-1">{{ form.email.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div>
+                <label class="font-bold block mb-1" for="role">Role</label>
+                <select class="select select-neutral w-full border border-gray-300 bg-[#F2F4F3] focus:outline-none" name="role" required>
+                    <option disabled selected>Register as a</option>
+                    <option value="Buyer">Buyer</option>
+                    <option value="Seller">Seller</option>
+                </select>
+                {% if form.role.errors %}
+                    <div class="text-red-600 text-sm mt-1">{{ form.role.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div>
+                <label class="font-bold block mb-1" for="password">Password</label>
+                <input class="input input-neutral w-full border border-gray-300 bg-[#F2F4F3] focus:outline-none" type="password" name="password" placeholder="Password" required>
+            </div>
+
+            <button id="submit-btn" type="submit" class="btn w-full bg-[#0A0908] text-[#F2F4F3]">Register</button>
+        </form>
     </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("register-form");
+        const button = document.getElementById("submit-btn");
+
+        form.addEventListener("submit", function () {
+            button.disabled = true;
+            button.innerText = "Creating...";
+        });
+    });
+</script>
 {% endblock %}
+
+
