@@ -26,8 +26,13 @@
 
             <button id="submit-btn" type="submit" class="btn bg-[#0A0908] w-full  text-[#F2F4F3]">Log In</button>
         </form>
+
+        <p>Don't have an account? <a href="{% url 'register' %}" class="text-[#5E503F] underline">Register</a></p>
     </div>
+    
 </div>
+
+{% include 'user/components/footer.html' %}
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
