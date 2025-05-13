@@ -1,0 +1,15 @@
+<div class="fixed top-5 right-5 z-50 space-y-4">
+    {% for message in messages %}
+        <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 4000)" 
+             class="alert 
+                {% if message.tags == 'success' %} alert-success bg-green-400 text-white {% endif %}
+                {% if message.tags == 'error' %} alert-error bg-red-400 text-white {% endif %}
+                {% if message.tags == 'info' %} alert-info bg-blue-400 text-white {% endif %}
+             shadow-lg p-2 rounded-lg w-auto max-w-sm">
+            <div class="flex items-center justify-between space-x-2 text-center">
+                <p class="whitespace-nowrap">{{ message }}</p>
+                <button @click="show = false" class="px-2 py-1 text-white">X</button>
+            </div>
+        </div>
+    {% endfor %}
+</div>
