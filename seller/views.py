@@ -11,14 +11,14 @@ from django.db.models import Sum
 def seller_dashboard(request):
     user = request.user
     products = ProductModel.objects.filter(user=user)
-    order = OrderModel.objects.filter(product__user=user)
+    orders = OrderModel.objects.filter(product__user=user)
     order_count = OrderModel.objects.filter(product__user=user, is_paid=True).count()
     product_count = products.count()
-    total_earned = OrderModel.filter(is_paid=True).aggregate(total=Sum('total_price'))['total'] or 0
+    total_earned = orders.filter(is_paid=True).aggregate(total=Sum('total_price'))['total'] or 0
 
     context = {
         'user': user,
-        'order': order,
+        'orders': orders,
         'order_count': order_count,
         'products': products,
         'product_count': product_count,

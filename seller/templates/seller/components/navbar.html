@@ -2,8 +2,11 @@
 
 {% if user.is_authenticated %}
 <nav  class="lg:px-10 flex bg-[#0A0908] justify-between py-4 items-center border-b border-gray-400 px-2">
-    <div class="text-2xl text-[#F2F4F3] flex font-semibold">
-        <strong style="font-family: 'Abril Fatface', serif; font-weight:400; font-style:normal;">P</strong>assioné
+    <div class="text-2xl text-[#F2F4F3] flex flex-col md:flex-row font-semibold space-x-4">
+        <p>
+            <strong style="font-family: 'Abril Fatface', serif; font-weight:400; font-style:normal;">P</strong>assioné
+        </p>
+        <p class="text-sm md:text-md lg:text-lg">| Seller</p>
     </div>
 
     <div>
