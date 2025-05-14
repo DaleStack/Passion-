@@ -4,4 +4,8 @@ from .models import ProductModel, CategoryModel, OrderModel
 
 admin.site.register(ProductModel)
 admin.site.register(CategoryModel)
-admin.site.register(OrderModel)
+@admin.register(OrderModel)
+class OrderModelAdmin(admin.ModelAdmin):
+    readonly_fields = ('total_price',)
+    fields = ('product', 'buyer', 'quantity', 'is_paid', 'total_price')
+    list_display = ['product', 'total_price', 'quantity']
