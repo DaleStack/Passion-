@@ -7,9 +7,23 @@
     </div>
 
     <div>
-        <a class="text-[#F2F4F3] tooltip tooltip-bottom" data-tip="Logout" href="{% url 'logout' %}">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out-icon lucide-log-out"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
-        </a>
+
+        <!-- Open the modal using ID.showModal() method -->
+        <button class="btn btn-ghost text-[#F2F4F3] hover:text-black" onclick="logoutModal.showModal()"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out-icon lucide-log-out"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg></button>
+            <dialog id="logoutModal" class="modal modal-bottom sm:modal-middle">
+            <div class="modal-box">
+                <h3 class="text-lg font-bold">Logout</h3>
+                <p class="py-4">Are you sure you want to logout?</p>
+                <div class="modal-action">
+                <form method="dialog">
+                    
+                    <a class="btn bg-[#0A0908] text-[#F2F4F3]" href="{% url 'logout' %}">Logout</a>
+                    <button class="btn">Cancel</button>
+                </form>
+                </div>
+            </div>
+            </dialog>
+        
     </div>
 </nav>
 {% endif %}
