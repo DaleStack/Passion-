@@ -3,4 +3,9 @@
 
 {% block content %}
 {% include 'seller/components/dashview.html' %}
+{% include 'seller/components/dashnav.html' %}
+
+<div id="dash-content" hx-get="{% url 'seller:products' %}" hx-target="#dash-content" hx-swap="innerHTML" hx-trigger="load">
+        <!-- Initial content will be replaced -->
+</div>
 {% endblock  %}

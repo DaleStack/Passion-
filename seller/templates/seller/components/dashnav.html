@@ -1,0 +1,21 @@
+<nav class="mx-2 mt-5 lg:mx-10 bg-[#0A0908] text-[#F2F4F3] flex flex-col sm:flex-row rounded-lg overflow-hidden">
+    <a class="px-4 py-3 sm:py-2 w-full text-center cursor-pointer hover:bg-[#1a1a1a] transition underline"
+       hx-get="{% url 'seller:products' %}"
+       hx-target="#dash-content"
+       hx-swap="innerHTML">Products</a>
+
+    <a class="px-4 py-3 sm:py-2 w-full text-center cursor-pointer hover:bg-[#1a1a1a] transition underline"
+       hx-get="{% url 'seller:orders' %}"
+       hx-target="#dash-content"
+       hx-swap="innerHTML">Orders</a>
+
+    <a class="px-4 py-3 sm:py-2 w-full text-center cursor-pointer hover:bg-[#1a1a1a] transition underline"
+       hx-get="{% url 'seller:analytics' %}"
+       hx-target="#dash-content"
+       hx-swap="innerHTML">Analytics</a>
+
+    <a class="px-4 py-3 sm:py-2 w-full text-center cursor-pointer hover:bg-[#1a1a1a] transition underline"
+       hx-get="{% url 'seller:settings' %}"
+       hx-target="#dash-content"
+       hx-swap="innerHTML">Settings</a>
+</nav>

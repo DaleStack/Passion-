@@ -46,7 +46,7 @@ def login_view(request):
                 if user.is_buyer():
                     return redirect('buyer_dashboard')  # Redirect to teacher dashboard
                 else:
-                    return redirect('seller_dashboard')  # Redirect to student dashboard
+                    return redirect('seller:seller_dashboard')  # Redirect to student dashboard
             else:
                 messages.error(request, 'Invalid credentials, please try again.')
         else:
