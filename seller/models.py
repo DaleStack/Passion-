@@ -48,3 +48,17 @@ class ProductModel(models.Model):
 
     def __str__(self):
         return self.name
+    
+class OrderModel(models.Model):
+    product = models.ForeignKey(ProductModel, on_delete=models.CASCADE)
+    buyer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='orders')
+    quantity = models.PositiveIntegerField(default=1)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2)
+    is_paid = models.BooleanField(default=False)
+    ordered_at = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        # Auto-calculate total price if not set
+        if not self.total_price:
+            self.total_price = self.product.price * self.quantity
+        super().save(*args, **kwargs)
