@@ -116,15 +116,6 @@ def delete_product(request, pk):
         return redirect('seller:seller_dashboard')
 
 
-
-
-
-
-
-@login_required
-def orders_view(request):
-    return render(request, 'seller/partials/orders.html')
-
 @login_required
 def analytics_view(request):
     return render(request, 'seller/partials/analytics.html')

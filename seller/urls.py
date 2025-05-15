@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import seller_dashboard, products_view, orders_view, analytics_view, settings_view, add_product, delete_product
+from .views import seller_dashboard, products_view, analytics_view, settings_view, add_product, delete_product
 
 app_name = 'seller'
 
