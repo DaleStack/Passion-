@@ -5,6 +5,7 @@ from .models import ProductModel, OrderModel
 from .forms import ProductForm
 from django.db.models import Sum
 from django.contrib import messages
+from django.core.paginator import Paginator
 
 # Create your views here.
 
@@ -36,7 +37,11 @@ def seller_dashboard(request):
 def products_view(request):
     user = request.user
     products = ProductModel.objects.filter(user=user)
-    return render(request, 'seller/partials/products.html')
+
+    context = {
+        'products': products,
+    }
+    return render(request, 'seller/partials/products.html', context)
 
 @login_required
 def orders_view(request):

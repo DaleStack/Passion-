@@ -9,7 +9,7 @@
         <p>Search Products</p>
         <div>
             <!-- Open the modal using ID.showModal() method -->
-            <button class="btn btn-ghost text-[#F2F4F3] hover:text-black  bg-[#5E503F] border-none" onclick="addModal.showModal()"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-grid2x2-plus-icon lucide-grid-2x2-plus"><path d="M12 3v17a1 1 0 0 1-1 1H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6a1 1 0 0 1-1 1H3"/><path d="M16 19h6"/><path d="M19 22v-6"/></svg>Add Product</button>
+            <button class="btn btn-ghost text-[#F2F4F3] hover:text-black  bg-[#5E503F] border-none" onclick="addModal.showModal()"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-grid2x2-plus-icon lucide-grid-2x2-plus"><path d="M12 3v17a1 1 0 0 1-1 1H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6a1 1 0 0 1-1 1H3"/><path d="M16 19h6"/><path d="M19 22v-6"/></svg><p class="hidden md:block">Add Product</p></button>
             <dialog id="addModal" class="modal modal-bottom sm:modal-middle">
 
             <div class="modal-box">
@@ -28,7 +28,84 @@
         </div>
     </div>
 
-    <div>
-        
+    <!--PRODUCT LIST-->
+<div class="mt-4">
+    <!-- Labels / Header -->
+    <div class="hidden md:flex justify-between font-semibold px-4 py-2 bg-[#22333B] text-[#F2F4F3] rounded-t-lg">
+        <p class="w-1/5">Image</p>
+        <p class="w-1/5">Name</p>
+        <p class="w-1/5">Price</p>
+        <p class="w-1/5">Stock</p>
+        <p class="w-1/5">Status</p>
+        <p class="w-1/5 text-right">Actions</p>
     </div>
+
+    {% for product in products %}
+        <!-- Product Row -->
+        <div class="flex flex-col md:flex-row justify-between items-center bg-[#A9927D] text-black px-4 py-3 mb-2 rounded-lg space-y-2 md:space-y-0">
+            <!-- Image -->
+            <div class="w-full md:w-1/5 flex items-center justify-center md:justify-start">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="w-16 h-16 object-cover rounded-md" />
+                {% else %}
+                    <p>No image</p>
+                {% endif %}
+            </div>
+
+            <!-- Name -->
+            <div class="w-full md:w-1/5 text-center md:text-left">
+                <p class="font-medium">{{ product.name }}</p>
+            </div>
+
+            <!-- Price -->
+            <div class="w-full md:w-1/5 text-center md:text-left">
+                <p>{{ product.price }}</p>
+            </div>
+
+            <!-- Stock -->
+            <div class="w-full md:w-1/5 text-center md:text-left">
+                <p>{{ product.stock }}</p>
+            </div>
+
+            <div class="w-full md:w-1/5 text-center md:text-left font-bold">
+                {% if product.stock > 25 %}
+                    <div class="badge bg-green-300">In Stock</div>
+                {% elif product.stock >= 15 %}
+                    <div class="badge bg-yellow-200">Low Stock</div>
+                {% elif product.stock >= 1 %}
+                    <div class="badge bg-gray-300">Limited Stock</div>
+                {% else %}
+                    <div class="badge bg-red-200">Out of Stock</div>
+                {% endif %}
+            </div>
+
+
+
+
+
+            <!-- Actions -->
+            <div class="w-full md:w-1/5 flex justify-center md:justify-end">
+                <div class="dropdown dropdown-end">
+                    <div tabindex="0" role="button" class="btn bg-[#5E503F] border-none m-0 min-h-0 h-10 px-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="lucide lucide-ellipsis-vertical">
+                            <circle cx="12" cy="12" r="1" />
+                            <circle cx="12" cy="5" r="1" />
+                            <circle cx="12" cy="19" r="1" />
+                        </svg>
+                    </div>
+                    <ul tabindex="0" class="dropdown-content menu bg-base-100 text-black rounded-box w-40 p-2 shadow">
+                        <li><a>Edit</a></li>
+                        <li><a>Delete</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p class="text-center text-gray-300 mt-4">No Products yet.</p>
+    {% endfor %}
+</div>
+
+
 </div>
