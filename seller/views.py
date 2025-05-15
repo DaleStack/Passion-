@@ -61,34 +61,6 @@ def products_view(request):
     }
     return render(request, 'seller/partials/products.html', context)
 
-@login_required
-def orders_view(request):
-    user = request.user
-    search_query = request.GET.get('search', '').strip()
-    status_filter = request.GET.get('status', '')
-
-    products = ProductModel.objects.filter(user=user).order_by('-id')
-    orders = orders = OrderModel.objects.all() 
-
-    if search_query:
-        products = products.filter(name__icontains=search_query)
-
-    if status_filter == 'in':
-        products = products.filter(stock__gt=25)
-    elif status_filter == 'low':
-        products = products.filter(stock__gte=15, stock__lte=25)
-    elif status_filter == 'limited':
-        products = products.filter(stock__gte=1, stock__lt=15)
-    elif status_filter == 'out':
-        products = products.filter(stock=0)
-
-    context = {
-        'products': products,
-        'orders': orders
-    }
-    return render(request, 'seller/partials/orders.html', context)
-
-
 
 @login_required
 def add_product(request):
