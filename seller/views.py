@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-from .models import ProductModel, OrderModel
+from .models import ProductModel, OrderModel, CategoryModel
 from .forms import ProductForm
 from django.db.models import Sum
 from django.contrib import messages
 from django.core.paginator import Paginator
+
 
 # Create your views here.
 
@@ -38,12 +39,12 @@ def products_view(request):
     user = request.user
     search_query = request.GET.get('search', '').strip()
     status_filter = request.GET.get('status', '')
+
     products = ProductModel.objects.filter(user=user).order_by('-id')
 
     if search_query:
         products = products.filter(name__icontains=search_query)
 
-    # Apply stock status filtering
     if status_filter == 'in':
         products = products.filter(stock__gt=25)
     elif status_filter == 'low':
@@ -57,6 +58,34 @@ def products_view(request):
         'products': products,
     }
     return render(request, 'seller/partials/products.html', context)
+
+
+
+@login_required
+def add_product(request):
+    user = request.user
+    categories = CategoryModel.objects.all()
+
+    if request.method == "POST":
+        form = ProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            product = form.save(commit=False)
+            product.user = user
+            product.save()
+            messages.success(request, 'New Product Added!')
+
+            return redirect('seller:seller_dashboard')  # Or wherever appropriate
+    else:
+        form = ProductForm()
+
+    return render(request, 'seller/add_product.html', {
+        'form': form,
+        'categories': categories,
+    })
+
+
+
+
 
 @login_required
 def orders_view(request):
