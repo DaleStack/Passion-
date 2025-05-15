@@ -36,7 +36,7 @@ def seller_dashboard(request):
 @login_required
 def products_view(request):
     user = request.user
-    products = ProductModel.objects.filter(user=user)
+    products = ProductModel.objects.filter(user=user).order_by('-id')
 
     context = {
         'products': products,

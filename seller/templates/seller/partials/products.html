@@ -1,4 +1,44 @@
-<div class="mx-2 lg:mx-10 bg-[#0A0908] text-[#F2F4F3] mt-5 rounded-lg px-4 py-5">
+<style>
+@-webkit-keyframes swing-in-top-fwd {
+  0% {
+    -webkit-transform: rotateX(-100deg);
+            transform: rotateX(-100deg);
+    -webkit-transform-origin: top;
+            transform-origin: top;
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: rotateX(0deg);
+            transform: rotateX(0deg);
+    -webkit-transform-origin: top;
+            transform-origin: top;
+    opacity: 1;
+  }
+}
+@keyframes swing-in-top-fwd {
+  0% {
+    -webkit-transform: rotateX(-100deg);
+            transform: rotateX(-100deg);
+    -webkit-transform-origin: top;
+            transform-origin: top;
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: rotateX(0deg);
+            transform: rotateX(0deg);
+    -webkit-transform-origin: top;
+            transform-origin: top;
+    opacity: 1;
+  }
+}
+
+.swing-in-top-fwd {
+	-webkit-animation: swing-in-top-fwd 0.5s cubic-bezier(0.175, 0.885, 0.320, 1.275) both;
+	        animation: swing-in-top-fwd 0.5s cubic-bezier(0.175, 0.885, 0.320, 1.275) both;
+}
+</style>
+
+<div class="mx-2 lg:mx-10 bg-[#0A0908] text-[#F2F4F3] mt-5 rounded-lg px-4 py-5 mb-5 swing-in-top-fwd">
     <div>
         <p class="text-xl font-bold">Products</p>
         <p class="text-[#A9927D]">Manage your store's products</p>
@@ -28,8 +68,8 @@
         </div>
     </div>
 
-    <!--PRODUCT LIST-->
-<div class="mt-4">
+ <!--PRODUCT LIST-->
+<div class="mt-4" style="max-height: 400px; overflow-y: auto;">
     <!-- Labels / Header -->
     <div class="hidden md:flex justify-between font-semibold px-4 py-2 bg-[#22333B] text-[#F2F4F3] rounded-t-lg">
         <p class="w-1/5">Image</p>
@@ -75,13 +115,9 @@
                 {% elif product.stock >= 1 %}
                     <div class="badge bg-gray-300">Limited Stock</div>
                 {% else %}
-                    <div class="badge bg-red-200">Out of Stock</div>
+                    <div class="badge bg-red-400">Out of Stock</div>
                 {% endif %}
             </div>
-
-
-
-
 
             <!-- Actions -->
             <div class="w-full md:w-1/5 flex justify-center md:justify-end">
