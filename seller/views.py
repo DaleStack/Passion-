@@ -34,6 +34,8 @@ def seller_dashboard(request):
 
 @login_required
 def products_view(request):
+    user = request.user
+    products = ProductModel.objects.filter(user=user)
     return render(request, 'seller/partials/products.html')
 
 @login_required
