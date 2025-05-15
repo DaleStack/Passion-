@@ -45,8 +45,37 @@
     </div>
 
     <!--ADD PRODUCT MODAL-->
-    <div class="flex justify-between items-center ">
-        <p>Search Products</p>
+    <div class="flex justify-between items-center mt-2">
+        <form method="get"
+            action="{% url 'seller:products' %}"
+            class="flex items-center gap-2"
+            up-target="#product-list"
+            up-accept="text/html"
+            up-submit>
+
+            <input type="text"
+                name="search"
+                placeholder="Search Products"
+                class="input bg-[#A9927D] focus:outline-none"
+                value="{{ request.GET.search }}"
+                up-trigger="input delay:500ms">
+
+            <select name="status"
+                    class="select bg-[#A9927D] text-black focus:outline-none"
+                    up-trigger="change">
+                <option value="">All Statuses</option>
+                <option value="in" {% if request.GET.status == 'in' %}selected{% endif %}>In Stock</option>
+                <option value="low" {% if request.GET.status == 'low' %}selected{% endif %}>Low Stock</option>
+                <option value="limited" {% if request.GET.status == 'limited' %}selected{% endif %}>Limited Stock</option>
+                <option value="out" {% if request.GET.status == 'out' %}selected{% endif %}>Out of Stock</option>
+            </select>
+
+            <button type="submit"
+                    class="btn btn-ghost bg-[#5E503F] text-[#F2F4F3] border-none">
+                Search
+            </button>
+        </form>
+
         <div>
             <!-- Open the modal using ID.showModal() method -->
             <button class="btn btn-ghost text-[#F2F4F3] hover:text-black  bg-[#5E503F] border-none" onclick="addModal.showModal()"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-grid2x2-plus-icon lucide-grid-2x2-plus"><path d="M12 3v17a1 1 0 0 1-1 1H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6a1 1 0 0 1-1 1H3"/><path d="M16 19h6"/><path d="M19 22v-6"/></svg><p class="hidden md:block">Add Product</p></button>
@@ -69,7 +98,7 @@
     </div>
 
  <!--PRODUCT LIST-->
-<div class="mt-4" style="max-height: 400px; overflow-y: auto;">
+<div id="product-list" class="mt-4" style="max-height: 400px; overflow-y: auto;">
     <!-- Labels / Header -->
     <div class="hidden md:flex justify-between font-semibold px-4 py-2 bg-[#22333B] text-[#F2F4F3] rounded-t-lg">
         <p class="w-1/5">Image</p>
@@ -145,3 +174,4 @@
 
 
 </div>
+
