@@ -119,7 +119,15 @@
             <!-- Price -->
             <div class="w-full md:w-1/5">
                 <div class="md:hidden text-sm text-gray-700">Price</div>
-                <p>{{ product.price }}</p>
+                
+                <div class="flex items-center">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M20 11H4"/>
+                        <path d="M20 7H4"/>
+                        <path d="M7 21V4a1 1 0 0 1 1-1h4a1 1 0 0 1 0 12H7"/>
+                    </svg>
+                    <p>{{ product.price }}</p>
+                </div>
             </div>
 
             <!-- Stock -->
@@ -173,4 +181,91 @@
             <p class="text-center text-gray-300 mt-4">No Products yet.</p>
         {% endfor %}
     </div>
+    
+</div>
+
+<!--ORDER PART-->
+<div class="mx-2 lg:mx-10 bg-[#0A0908] text-[#F2F4F3] mt-5 rounded-lg px-4 py-5 mb-5 swing-in-top-fwd">
+    <div>
+        <p class="text-xl font-bold">Order</p>
+        <p class="text-[#A9927D]">See your store's overall orders</p>
+    </div>
+
+    <!-- Order LIST -->
+<div id="order-list" class="mt-4" style="max-height: 400px; overflow-y: auto;">
+    <!-- Header for Desktop -->
+    <div class="hidden md:flex justify-between font-semibold px-4 py-2 bg-[#22333B] text-[#F2F4F3] rounded-t-lg">
+        <p class="w-1/5">Image</p>
+        <p class="w-1/5">Product</p>
+        <p class="w-1/5">Price</p>
+        <p class="w-1/5">Quantity</p>
+        <p class="w-1/5">Total</p>
+        <p class="w-1/5 text-right">Status</p>
+    </div>
+
+    {% for order in orders %}
+    <!-- Order Row -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center bg-[#A9927D] text-black px-4 py-3 mb-2 rounded-lg space-y-3 md:space-y-0">
+        <!-- Image -->
+        <div class="w-full md:w-1/5 flex items-center gap-2">
+            {% if order.product and order.product.image %}
+                <img src="{{ order.product.image.url }}" alt="{{ order.product_name }}" class="w-16 h-16 object-cover rounded-md" />
+            {% else %}
+                <p>No image</p>
+            {% endif %}
+            <span class="md:hidden font-bold">Image</span>
+        </div>
+
+        <!-- Product Name -->
+        <div class="w-full md:w-1/5">
+            <div class="md:hidden text-sm text-gray-700">Product</div>
+            <p class="font-medium">{{ order.product_name }}</p>
+        </div>
+
+        <!-- Price -->
+        <div class="w-full md:w-1/5">
+            <div class="md:hidden text-sm text-gray-700">Price</div>
+            <div class="flex items-center">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M20 11H4"/>
+                            <path d="M20 7H4"/>
+                            <path d="M7 21V4a1 1 0 0 1 1-1h4a1 1 0 0 1 0 12H7"/>
+                </svg>
+                <p>${{ order.product_price }}</p>
+            </div>
+        </div>
+
+        <!-- Quantity -->
+        <div class="w-full md:w-1/5">
+            <div class="md:hidden text-sm text-gray-700">Quantity</div>
+            <p>{{ order.quantity }}</p>
+        </div>
+
+        <!-- Total -->
+        <div class="w-full md:w-1/5">
+            <div class="md:hidden text-sm text-gray-700">Total</div>
+            <div class="flex items-center">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M20 11H4"/>
+                            <path d="M20 7H4"/>
+                            <path d="M7 21V4a1 1 0 0 1 1-1h4a1 1 0 0 1 0 12H7"/>
+                </svg>
+                <p>${{ order.total_price }}</p>
+            </div>
+        </div>
+
+        <!-- Status -->
+        <div class="w-full md:w-1/5 text-right font-bold">
+            <div class="md:hidden text-sm text-gray-700">Status</div>
+            {% if order.is_paid %}
+                <span class="badge bg-green-300">Paid</span>
+            {% else %}
+                <span class="badge bg-red-300">Pending</span>
+            {% endif %}
+        </div>
+    </div>
+    {% empty %}
+        <p class="text-center text-gray-300 mt-4">No Orders yet.</p>
+    {% endfor %}
+</div>
 </div>

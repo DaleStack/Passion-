@@ -41,6 +41,7 @@ def products_view(request):
     status_filter = request.GET.get('status', '')
 
     products = ProductModel.objects.filter(user=user).order_by('-id')
+    orders = OrderModel.objects.filter(product__in=products).order_by('-ordered_at')
 
     if search_query:
         products = products.filter(name__icontains=search_query)
@@ -56,8 +57,36 @@ def products_view(request):
 
     context = {
         'products': products,
+        'orders': orders
     }
     return render(request, 'seller/partials/products.html', context)
+
+@login_required
+def orders_view(request):
+    user = request.user
+    search_query = request.GET.get('search', '').strip()
+    status_filter = request.GET.get('status', '')
+
+    products = ProductModel.objects.filter(user=user).order_by('-id')
+    orders = orders = OrderModel.objects.all() 
+
+    if search_query:
+        products = products.filter(name__icontains=search_query)
+
+    if status_filter == 'in':
+        products = products.filter(stock__gt=25)
+    elif status_filter == 'low':
+        products = products.filter(stock__gte=15, stock__lte=25)
+    elif status_filter == 'limited':
+        products = products.filter(stock__gte=1, stock__lt=15)
+    elif status_filter == 'out':
+        products = products.filter(stock=0)
+
+    context = {
+        'products': products,
+        'orders': orders
+    }
+    return render(request, 'seller/partials/orders.html', context)
 
 
 
@@ -97,15 +126,22 @@ def delete_product(request, pk):
         return redirect('buyer_dashboard')
     
     product = get_object_or_404(ProductModel, pk=pk)
-    
+
     if product.user != user:
         messages.error(request, 'You can only delete your own products.')
         return redirect('seller:seller_dashboard')
 
-    if request.method == "POST":  # Ensure it's a POST request
+    if request.method == "POST":
+        orders = OrderModel.objects.filter(product=product)
+
+        for order in orders:
+            order.product = None  # Unlink product but keep order data
+            order.save()
+
         product.delete()
+
         messages.success(request, 'Product deleted!')
-        return redirect('seller:seller_dashboard')  # Redirect after deletion
+        return redirect('seller:seller_dashboard')
 
 
 

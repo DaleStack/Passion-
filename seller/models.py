@@ -50,15 +50,29 @@ class ProductModel(models.Model):
         return self.name
     
 class OrderModel(models.Model):
-    product = models.ForeignKey(ProductModel, on_delete=models.CASCADE)
+    product = models.ForeignKey(ProductModel, on_delete=models.SET_NULL, null=True, blank=True)
     buyer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='orders')
+    seller = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name='sales')  # new
+    product_name = models.CharField(max_length=255, blank=True)  # new
+    product_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)  # new
     quantity = models.PositiveIntegerField(default=1)
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     is_paid = models.BooleanField(default=False)
     ordered_at = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
-        # Auto-calculate total price if not set
-        if not self.total_price:
-            self.total_price = self.product.price * self.quantity
+        if self._state.adding:  # Only set on first save (new order)
+            if self.product:
+                self.product_name = self.product.name
+                self.product_price = self.product.price
+                self.seller = self.product.user
+
+            if not self.total_price and self.product_price:
+                self.total_price = self.product_price * self.quantity
+
         super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Order #{self.id} - {self.product_name} x{self.quantity}"
+
+
