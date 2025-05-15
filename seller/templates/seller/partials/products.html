@@ -44,11 +44,11 @@
         <p class="text-[#A9927D]">Manage your store's products</p>
     </div>
 
-    <!--ADD PRODUCT MODAL-->
-    <div class="flex justify-between items-center mt-2">
+    <!-- FILTERS + ADD BUTTON -->
+    <div class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 mt-2">
         <form method="get"
             action="{% url 'seller:products' %}"
-            class="flex items-center gap-2"
+            class="flex flex-col sm:flex-row gap-2 w-full"
             up-target="#product-list"
             up-accept="text/html"
             up-submit>
@@ -72,57 +72,65 @@
 
             <button type="submit"
                     class="btn btn-ghost bg-[#5E503F] text-[#F2F4F3] border-none">
-                Search
+             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search-icon lucide-search"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/>
+            </svg>
             </button>
         </form>
 
-        <div>
-            <!-- Open the modal using ID.showModal() method -->
-            <a href="{% url 'seller:add_product' %}" class="btn btn-ghost text-[#F2F4F3] hover:text-black  bg-[#5E503F] border-none" onclick="addModal.showModal()"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-grid2x2-plus-icon lucide-grid-2x2-plus"><path d="M12 3v17a1 1 0 0 1-1 1H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6a1 1 0 0 1-1 1H3"/><path d="M16 19h6"/><path d="M19 22v-6"/></svg><p class="hidden md:block">Add Product</p></a>
-        
+        <div class="sm:mt-0">
+            <a href="{% url 'seller:add_product' %}" class="btn btn-ghost text-[#F2F4F3] hover:text-black bg-[#5E503F] border-none">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-blocks-icon lucide-blocks"><rect width="7" height="7" x="14" y="3" rx="1"/><path d="M10 21V8a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-5a1 1 0 0 0-1-1H3"/></svg>
+                <p class="">Add Product</p>
+            </a>
         </div>
     </div>
 
- <!--PRODUCT LIST-->
-<div id="product-list" class="mt-4" style="max-height: 400px; overflow-y: auto;">
-    <!-- Labels / Header -->
-    <div class="hidden md:flex justify-between font-semibold px-4 py-2 bg-[#22333B] text-[#F2F4F3] rounded-t-lg">
-        <p class="w-1/5">Image</p>
-        <p class="w-1/5">Name</p>
-        <p class="w-1/5">Price</p>
-        <p class="w-1/5">Stock</p>
-        <p class="w-1/5">Status</p>
-        <p class="w-1/5 text-right">Actions</p>
-    </div>
+    <!-- PRODUCT LIST -->
+    <div id="product-list" class="mt-4" style="max-height: 400px; overflow-y: auto;">
+        <!-- Header for Desktop -->
+        <div class="hidden md:flex justify-between font-semibold px-4 py-2 bg-[#22333B] text-[#F2F4F3] rounded-t-lg">
+            <p class="w-1/5">Image</p>
+            <p class="w-1/5">Name</p>
+            <p class="w-1/5">Price</p>
+            <p class="w-1/5">Stock</p>
+            <p class="w-1/5">Status</p>
+            <p class="w-1/5 text-right">Actions</p>
+        </div>
 
-    {% for product in products %}
+        {% for product in products %}
         <!-- Product Row -->
-        <div class="flex flex-col md:flex-row justify-between items-center bg-[#A9927D] text-black px-4 py-3 mb-2 rounded-lg space-y-2 md:space-y-0">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center bg-[#A9927D] text-black px-4 py-3 mb-2 rounded-lg space-y-3 md:space-y-0">
             <!-- Image -->
-            <div class="w-full md:w-1/5 flex items-center justify-center md:justify-start">
+            <div class="w-full md:w-1/5 flex items-center gap-2">
                 {% if product.image %}
                     <img src="{{ product.image.url }}" alt="{{ product.name }}" class="w-16 h-16 object-cover rounded-md" />
                 {% else %}
                     <p>No image</p>
                 {% endif %}
+                <span class="md:hidden font-bold">Image</span>
             </div>
 
             <!-- Name -->
-            <div class="w-full md:w-1/5 text-center md:text-left">
+            <div class="w-full md:w-1/5">
+                <div class="md:hidden text-sm text-gray-700">Name</div>
                 <p class="font-medium">{{ product.name }}</p>
             </div>
 
             <!-- Price -->
-            <div class="w-full md:w-1/5 text-center md:text-left">
+            <div class="w-full md:w-1/5">
+                <div class="md:hidden text-sm text-gray-700">Price</div>
                 <p>{{ product.price }}</p>
             </div>
 
             <!-- Stock -->
-            <div class="w-full md:w-1/5 text-center md:text-left">
+            <div class="w-full md:w-1/5">
+                <div class="md:hidden text-sm text-gray-700">Stock</div>
                 <p>{{ product.stock }}</p>
             </div>
 
-            <div class="w-full md:w-1/5 text-center md:text-left font-bold">
+            <!-- Status -->
+            <div class="w-full md:w-1/5 font-bold">
+                <div class="md:hidden text-sm text-gray-700">Status</div>
                 {% if product.stock > 25 %}
                     <div class="badge bg-green-300">In Stock</div>
                 {% elif product.stock >= 15 %}
@@ -135,12 +143,12 @@
             </div>
 
             <!-- Actions -->
-            <div class="w-full md:w-1/5 flex justify-center md:justify-end">
+            <div class="w-full md:w-1/5 flex justify-end">
                 <div class="dropdown dropdown-end">
                     <div tabindex="0" role="button" class="btn bg-[#5E503F] border-none m-0 min-h-0 h-10 px-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="lucide lucide-ellipsis-vertical">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" class="lucide lucide-ellipsis-vertical">
                             <circle cx="12" cy="12" r="1" />
                             <circle cx="12" cy="5" r="1" />
                             <circle cx="12" cy="19" r="1" />
@@ -148,16 +156,21 @@
                     </div>
                     <ul tabindex="0" class="dropdown-content menu bg-base-100 text-black rounded-box w-40 p-2 shadow">
                         <li><a>Edit</a></li>
-                        <li><a>Delete</a></li>
+                        <li>
+                            <a href="{% url 'seller:delete_product' product.id %}"
+                            onclick="event.preventDefault(); document.getElementById('delete-form-{{ product.id }}').submit();">
+                                Delete
+                            </a>
+                            <form id="delete-form-{{ product.id }}" action="{% url 'seller:delete_product' product.id %}" method="POST">
+                                {% csrf_token %}
+                            </form>
+                        </li>
                     </ul>
                 </div>
             </div>
         </div>
-    {% empty %}
-        <p class="text-center text-gray-300 mt-4">No Products yet.</p>
-    {% endfor %}
+        {% empty %}
+            <p class="text-center text-gray-300 mt-4">No Products yet.</p>
+        {% endfor %}
+    </div>
 </div>
-
-
-</div>
-

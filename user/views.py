@@ -19,7 +19,7 @@ def register_view(request):
                 if form.cleaned_data['role'] == UserModel.BUYER:
                     return redirect('buyer_dashboard')  # Redirect to buyer dashboard
                 else:
-                    return redirect('seller_dashboard')  # Redirect to seller dashboard
+                    return redirect('seller:seller_dashboard')  # Redirect to seller dashboard
             except Exception as e:
                 print(f"Error during registration: {e}")
                 messages.error(request, 'Oops! Something went wrong.')

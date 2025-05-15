@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from .models import ProductModel, OrderModel, CategoryModel
@@ -64,6 +64,11 @@ def products_view(request):
 @login_required
 def add_product(request):
     user = request.user
+
+    if user.role != 'Seller':
+        messages.error(request, 'You are not authorized to view this page')
+        return redirect('buyer_dashboard')
+    
     categories = CategoryModel.objects.all()
 
     if request.method == "POST":
@@ -82,6 +87,27 @@ def add_product(request):
         'form': form,
         'categories': categories,
     })
+
+@login_required
+def delete_product(request, pk):
+    user = request.user
+
+    if user.role != 'Seller':
+        messages.error(request, 'You are not authorized to view this page')
+        return redirect('buyer_dashboard')
+    
+    product = get_object_or_404(ProductModel, pk=pk)
+    
+    if product.user != user:
+        messages.error(request, 'You can only delete your own products.')
+        return redirect('seller:seller_dashboard')
+
+    if request.method == "POST":  # Ensure it's a POST request
+        product.delete()
+        messages.success(request, 'Product deleted!')
+        return redirect('seller:seller_dashboard')  # Redirect after deletion
+
+
 
 
 
