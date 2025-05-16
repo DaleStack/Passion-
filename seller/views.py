@@ -92,6 +92,32 @@ def add_product(request):
     })
 
 @login_required
+def edit_product(request, pk):
+    user = request.user
+
+    if user.role != 'Seller':
+        messages.error(request, 'You are not authorized to view this page')
+        return redirect('buyer_dashboard')
+
+    product = get_object_or_404(ProductModel, pk=pk, user=user)
+    categories = CategoryModel.objects.all()
+
+    if request.method == "POST":
+        form = ProductForm(request.POST, request.FILES, instance=product)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Product updated successfully!')
+            return redirect('seller:seller_dashboard')
+    else:
+        form = ProductForm(instance=product)
+
+    return render(request, 'seller/edit_product.html', {
+        'form': form,
+        'categories': categories,
+        'product': product,
+    })
+
+@login_required
 def delete_product(request, pk):
     user = request.user
 
