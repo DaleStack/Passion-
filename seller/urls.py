@@ -9,7 +9,6 @@ urlpatterns = [
     path('add_product/', add_product, name='add_product'),
     path('edit_product/<int:pk>/', edit_product, name='edit_product'),
     path('delete_product/<int:pk>/', delete_product, name='delete_product'),
-
     path('analytics/', analytics_view, name='analytics'),
     path('settings/', settings_view, name='settings'),
 ]

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from .models import ProductModel, OrderModel, CategoryModel
-from .forms import ProductForm
+from .forms import ProductForm, SettingForm
 from django.db.models import Sum
 from django.contrib import messages
 from django.core.paginator import Paginator
@@ -183,4 +183,14 @@ def analytics_view(request):
 
 @login_required
 def settings_view(request):
+    user = request.user
+
+    if request.method == "POST":
+        form = SettingForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Profile updated successfully!')
+            return redirect('seller:seller_dashboard')
+    else:
+        form = SettingForm(instance=user)
     return render(request, 'seller/partials/settings.html')

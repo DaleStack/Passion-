@@ -6,7 +6,7 @@
     <div class="mx-2 lg:mx-10 bg-[#0A0908] text-[#F2F4F3] mt-5 rounded-lg px-6 py-6 mb-5 shadow-lg">
     <h2 class="text-2xl font-bold mb-4">Add Product</h2>
     
-    <form method="post" enctype="multipart/form-data">
+    <form id="add-form" method="post" enctype="multipart/form-data">
         {% csrf_token %}
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -54,11 +54,24 @@
 
         <!-- Action Buttons -->
         <div class="flex justify-end gap-3 mt-5">
-            <button type="submit" class="btn bg-[#5E503F] text-[#F2F4F3] hover:bg-[#3D3B3A]">Save</button>
+            <button id="submit-btn" type="submit" class="btn bg-[#5E503F] text-[#F2F4F3] hover:bg-[#3D3B3A]">Save</button>
             <a class="btn bg-[#A9927D] text-black hover:bg-[#877C69]" href="{% url 'seller:seller_dashboard' %}">Cancel</a>
         </div>
     </form>
 </div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("add-form");
+        const button = document.getElementById("submit-btn");
+
+        form.addEventListener("submit", function () {
+            button.disabled = true;
+            button.innerText = "Creating...";
+        });
+    });
+</script>
 
 
 {% endblock  %}
