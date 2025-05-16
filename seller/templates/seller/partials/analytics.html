@@ -1,29 +1,112 @@
-<div class="mx-2 lg:mx-10 bg-[#0A0908] text-[#F2F4F3] mt-5 rounded-lg px-4 py-5">
+<div class="mx-2 lg:mx-10 bg-[#0A0908] text-[#F2F4F3] mt-5 rounded-lg px-4 py-5 mb-5">
     <div>
         <p class="text-xl font-bold">Analytics</p>
         <p class="text-[#A9927D]">Manage your store's products</p>
     </div>
 
-    <div class="flex justify-between items-center ">
-        <p>Search Products</p>
-        <div>
-            <!-- Open the modal using ID.showModal() method -->
-            <button class="btn btn-ghost text-[#F2F4F3] hover:text-black  bg-[#5E503F] border-none" onclick="addModal.showModal()"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-grid2x2-plus-icon lucide-grid-2x2-plus"><path d="M12 3v17a1 1 0 0 1-1 1H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6a1 1 0 0 1-1 1H3"/><path d="M16 19h6"/><path d="M19 22v-6"/></svg>Add Product</button>
-            <dialog id="addModal" class="modal modal-bottom sm:modal-middle">
-
-            <div class="modal-box">
-                <h3 class="text-lg text-black font-bold">Add New Product</h3>
-                <p class="py-4 text-black">Fill out the form to create new product</p>
-                <div class="modal-action">
-                <form method="dialog">
-                    
-                    <a class="btn bg-[#0A0908] text-[#F2F4F3]" href="{% url 'logout' %}">Logout</a>
-                    <button class="btn">Cancel</button>
-                </form>
-                </div>
-            </div>
-            </dialog>
-        
+    <div class="flex flex-wrap justify-between gap-4 mt-10">
+        <div class="w-full md:w-[48%]">
+            <p class="text-xl font-bold mb-2">Orders by Category</p>
+            <canvas id="categoryChart" class="w-full h-auto"></canvas>
+        </div>
+        <div class="w-full md:w-[48%]">
+            <p class="text-xl font-bold mb-2">Products Purchased</p>
+            <canvas id="productDoughnutChart" class="w-full h-auto"></canvas>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </div>
+
+<script>
+    const ctx = document.getElementById('categoryChart').getContext('2d');
+
+    const chartLabels = {{ chart_labels|safe }};
+    const chartData = {{ chart_data|safe }};
+
+    const backgroundColors = [
+        '#A9927D',
+        '#6A994E',
+        '#D62828',
+        '#003049',
+        '#F77F00',
+        '#E9C46A',
+        '#2A9D8F',
+        '#E76F51',
+        '#264653',
+        '#F4A261'
+    ];
+
+    const borderColors = [
+        '#22333B',
+        '#386641',
+        '#9D0208',
+        '#1D3557',
+        '#FFBA08',
+        '#F4A261',
+        '#1B9AAA',
+        '#A05195',
+        '#003049',
+        '#E63946'
+    ];
+
+    const categoryChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: chartLabels,
+            datasets: [{
+                label: 'Orders per Category',
+                data: chartData,
+                backgroundColor: backgroundColors.slice(0, chartData.length),
+                borderColor: borderColors.slice(0, chartData.length),
+                borderWidth: 1,
+                borderRadius: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+     // Doughnut chart for products
+    const doughnutCtx = document.getElementById('productDoughnutChart').getContext('2d');
+
+    const productLabels = {{ product_labels|safe }};
+    const productData = {{ product_data|safe }};
+    
+    const doughnutColors = [
+        '#A9927D', '#6A994E', '#D62828', '#003049', '#F77F00',
+        '#E9C46A', '#2A9D8F', '#E76F51', '#264653', '#F4A261',
+        '#FF6B6B', '#4ECDC4', '#F7B801', '#A4036F', '#00A896'
+    ];
+
+    const doughnutChart = new Chart(doughnutCtx, {
+        type: 'doughnut',
+        data: {
+            labels: productLabels,
+            datasets: [{
+                label: 'Products Purchased',
+                data: productData,
+                backgroundColor: doughnutColors.slice(0, productData.length),
+                borderColor: '#0A0908',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'right',
+                    labels: {
+                        color: '#F2F4F3'
+                    }
+                }
+            }
+        }
+    });
+</script>
