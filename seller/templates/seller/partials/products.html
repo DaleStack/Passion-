@@ -163,7 +163,7 @@
                         </svg>
                     </div>
                     <ul tabindex="0" class="dropdown-content menu bg-base-100 text-black rounded-box w-40 p-2 shadow">
-                        <li><a>Edit</a></li>
+                        <li><a href="{% url 'seller:edit_product' product.id %}">Edit</a></li>
                         <li>
                             <a href="{% url 'seller:delete_product' product.id %}"
                             onclick="event.preventDefault(); document.getElementById('delete-form-{{ product.id }}').submit();">

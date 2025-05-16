@@ -7,7 +7,7 @@ urlpatterns = [
     path('dashboard/', seller_dashboard, name='seller_dashboard'),
     path('products/', products_view, name='products'),
     path('add_product/', add_product, name='add_product'),
-    path('edit_product/<int:pk>', edit_product, name='edit_product'),
+    path('edit_product/<int:pk>/', edit_product, name='edit_product'),
     path('delete_product/<int:pk>/', delete_product, name='delete_product'),
 
     path('analytics/', analytics_view, name='analytics'),

@@ -1,0 +1,69 @@
+{% extends "seller/base.html" %}
+{% block title %}Passioné | Edit Product{% endblock %}
+
+{% block content %}
+
+    <div class="mx-2 lg:mx-10 bg-[#0A0908] text-[#F2F4F3] mt-5 rounded-lg px-6 py-6 mb-5 shadow-lg">
+    <h2 class="text-2xl font-bold mb-4">Add Product</h2>
+    
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Product Name -->
+            <div class="form-control">
+                <label class="label text-lg font-semibold">Product Name</label>
+                <input value="{{ product.name }}" type="text" name="name" class="input input-bordered w-full bg-[#A9927D] text-black focus:outline-none" required>
+            </div>
+
+            <!-- Price -->
+            <div class="form-control">
+                <label class="label text-lg font-semibold">Price</label>
+                <input value="{{ product.price }}" type="number" step="0.01" name="price" class="input input-bordered w-full bg-[#A9927D] text-black focus:outline-none" required>
+            </div>
+
+            <!-- Description -->
+            <div class="form-control col-span-2">
+                <label class="label text-lg font-semibold">Description</label>
+                <textarea name="description" class="textarea textarea-bordered w-full bg-[#A9927D] text-black focus:outline-none">{{ product.description }}</textarea>
+            </div>
+
+            <!-- Category -->
+            <div class="form-control">
+                <label class="label text-lg font-semibold">Category</label>
+                    <select name="category" class="select select-bordered w-full bg-[#A9927D] text-black focus:outline-none" required>
+                        <option disabled {% if not product.category %}selected{% endif %}>Select Category</option>
+                        {% for cat in categories %}
+                            <option value="{{ cat.id }}" {% if cat.id == product.category %}selected{% endif %}>{{ cat.name }}</option>
+                        {% endfor %}
+                    </select>
+            </div>
+
+            <!-- Stock -->
+            <div class="form-control">
+                <label class="label text-lg font-semibold">Stock</label>
+                <input value="{{ product.stock }}" type="number" name="stock" class="input input-bordered w-full bg-[#A9927D] text-black focus:outline-none" required>
+            </div>
+
+            <!-- Image Upload -->
+            <div class="form-control col-span-2">
+                <label class="label text-lg font-semibold">Product Image</label>
+
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="Current Image" class="w-32 h-32 object-cover mb-2 rounded">
+                {% endif %}
+
+                <input type="file" name="image" class="file-input file-input-bordered w-full bg-[#A9927D] focus:outline-none">
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex justify-end gap-3 mt-5">
+            <button type="submit" class="btn bg-[#5E503F] text-[#F2F4F3] hover:bg-[#3D3B3A]">Save</button>
+            <a class="btn bg-[#A9927D] text-black hover:bg-[#877C69]" href="{% url 'seller:seller_dashboard' %}">Cancel</a>
+        </div>
+    </form>
+</div>
+
+
+{% endblock  %}
