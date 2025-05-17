@@ -65,7 +65,7 @@ class OrderModel(models.Model):
             if self.product:
                 self.product_name = self.product.name
                 self.product_price = self.product.price
-                self.seller = self.product.user
+                self.seller = getattr(self.product, 'user', None)
 
             if not self.total_price and self.product_price:
                 self.total_price = self.product_price * self.quantity
