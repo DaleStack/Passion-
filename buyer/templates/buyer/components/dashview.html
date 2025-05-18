@@ -1,0 +1,93 @@
+{% load static %}
+<style>
+    @-webkit-keyframes scale-in-center {
+  0% {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes scale-in-center {
+  0% {
+    -webkit-transform: scale(0);
+            transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.scale-in-center {
+	-webkit-animation: scale-in-center 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	        animation: scale-in-center 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+</style>
+<div class="outline mx-2 lg:mx-10 mt-3 bg-[#0A0908] text-[#F2F4F3] rounded-lg px-4 py-5">
+    <!-- Header Section -->
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
+        <!-- Profile Name -->
+        <div class="flex flex-col space-y-2">
+            <p class="text-3xl md:text-4xl underline" style="font-family: 'Abril Fatface', serif;">{{ user.username }}</p>
+            <p class="text-[#A9927D] text-sm md:text-base">Member since {{ user.created_at|date:"F Y" }}</p>
+        </div>
+
+        <a class="btn bg-[#5E503F] text-[#F2F4F3] border-none self-start md:self-auto" href="">View Public Store</a>
+    </div>
+
+    <!-- Stats Cards Section -->
+    <div class="flex flex-col sm:flex-row flex-wrap gap-4 mt-8 ">
+        <!-- Total Products -->
+        <div class="flex-1 min-w-[260px] px-4 py-4 rounded-lg space-y-3 bg-[#22333B] scale-in-center">
+            <div class="flex justify-between">
+                <p class="text-xl">Products</p>
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/>
+                    <path d="M12 22V12"/>
+                    <polyline points="3.29 7 12 12 20.71 7"/>
+                    <path d="m7.5 4.27 9 5.15"/>
+                </svg>
+            </div>
+            <p class="text-2xl font-semibold">{{ product_count }}</p>
+        </div>
+
+        <!-- Total Orders -->
+        <div class="flex-1 min-w-[260px] px-4 py-4 rounded-lg space-y-3 bg-[#22333B] scale-in-center">
+            <div class="flex justify-between">
+                <p class="text-xl">Orders</p>
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/>
+                    <path d="M3 6h18"/>
+                    <path d="M16 10a4 4 0 0 1-8 0"/>
+                </svg>
+            </div>
+            <p class="text-2xl font-semibold">{{ order_count }}</p>
+        </div>
+
+        <!-- Total Earnings -->
+        <div class="flex-1 min-w-[260px] px-4 py-4 rounded-lg space-y-3 bg-[#22333B] scale-in-center">
+            <div class="flex justify-between">
+                <p class="text-xl">Total Earnings</p>
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/>
+                    <path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/>
+                </svg>
+            </div>
+            <div class="flex items-center space-x-1">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M20 11H4"/>
+                    <path d="M20 7H4"/>
+                    <path d="M7 21V4a1 1 0 0 1 1-1h4a1 1 0 0 1 0 12H7"/>
+                </svg>
+                <p class="text-2xl font-semibold">{{ total_earned }}</p>
+            </div>
+        </div>
+    </div>
+</div>

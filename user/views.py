@@ -17,7 +17,7 @@ def register_view(request):
                 
                 # Check if the user is a teacher or student
                 if form.cleaned_data['role'] == UserModel.BUYER:
-                    return redirect('buyer_dashboard')  # Redirect to buyer dashboard
+                    return redirect('buyer:buyer_dashboard')  # Redirect to buyer dashboard
                 else:
                     return redirect('seller:seller_dashboard')  # Redirect to seller dashboard
             except Exception as e:
@@ -44,7 +44,7 @@ def login_view(request):
 
                 # Redirect based on the role
                 if user.is_buyer():
-                    return redirect('buyer_dashboard')  # Redirect to teacher dashboard
+                    return redirect('buyer:buyer_dashboard')  # Redirect to teacher dashboard
                 else:
                     return redirect('seller:seller_dashboard')  # Redirect to student dashboard
             else:

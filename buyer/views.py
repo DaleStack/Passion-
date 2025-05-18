@@ -15,6 +15,6 @@ def buyer_dashboard(request):
 
     context = {
         'user': user,
-        'products': products
+        'products': products,
     }
-    return render(request, 'buyer/dashboard.html', context)
+    return render(request, 'buyer/buyerdash.html', context)
