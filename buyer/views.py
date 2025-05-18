@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from seller.models import ProductModel
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -18,3 +18,14 @@ def buyer_dashboard(request):
         'products': products,
     }
     return render(request, 'buyer/buyerdash.html', context)
+
+@login_required
+def item_view(request, pk):
+    product = get_object_or_404(ProductModel, pk=pk)
+
+    return render(request, 'buyer/product_detail.html', {
+        'product': product
+    })
+
+
+
