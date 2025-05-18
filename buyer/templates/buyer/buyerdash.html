@@ -5,7 +5,7 @@
 {{ user.username }}
 <div class="flex flex-col">
 {% for product in products %}
-    <a href="">{{ product.name }}</a>
+    <a href="{% url 'buyer:item_view' product.id %}">{{ product.name }}</a>
 {% endfor %}
 </div>
 {% endblock %}
